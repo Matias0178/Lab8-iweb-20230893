@@ -1,11 +1,25 @@
 package pe.edu.pucp.iweb.lab8.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import pe.edu.pucp.iweb.lab8.beans.Cancion;
 
-public class CancionDao { // TODO: heredar de BaseDao
+public class CancionDao extends BaseDao { // TODO: heredar de BaseDao
 
+    String sql;
+        try (Connection cn = getConnection();
+    PreparedStatement ps = cn.prepareStatement(sql);
+    ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            lista.add(new Sede(rs.getInt("idsede"), rs.getString("nombre")));
+        }
+    } catch (SQLException e) {
+        throw new IllegalStateException("No se pudo listar las sedes", e);
+    }
     /**
      * Ejercicio 2: todas las canciones (con el nombre de su género, JOIN),
      * ordenadas por título. Use PreparedStatement.
